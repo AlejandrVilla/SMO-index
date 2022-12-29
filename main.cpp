@@ -43,7 +43,7 @@ int main()
     K2Tree smo(matrix, 2);
 
     smo.print_data();
-    int i,x;
+    int i, x;
     i=1,x=2;
     if(smo.child_i(i,x))
         cout<<x<<" "<<smo.tree[x]<<'\n';
