@@ -10,7 +10,7 @@ private:
     std::vector<K2Tree> snapshots;
     std::vector<Log> mov_logs;
 public:
-    SMOIndex();
+    SMOIndex(std::vector<std::vector<std::vector<int>>> positions, int j);
 
 };
 
