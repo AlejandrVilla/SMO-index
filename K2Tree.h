@@ -6,14 +6,16 @@
 
 class K2Tree
 {
-private:
+public:
     std::vector<int> tree;
     std::vector<int> leaves;
     std::vector<int> labels;
     int n;
+    int k;
 public:
-    K2Tree(std::vector<std::vector<int>> matrix);
+    K2Tree(std::vector<std::vector<int>> matrix, int _k);
     void insert(int x, int y);
+    bool child_i(int i, int& x);
 
     int rank(int p, int i);
     int select(int p, int i);

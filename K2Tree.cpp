@@ -3,9 +3,10 @@
 #include <iostream>
 #include <algorithm>
 
-K2Tree::K2Tree(std::vector<std::vector<int>> matrix)
+K2Tree::K2Tree(std::vector<std::vector<int>> matrix, int _k)
 {
     this->n = matrix.size();
+    this->k = _k;
     std::vector<std::vector<int>> T(std::ceil(std::log2(n)) + 1);
     this->build(matrix,T,n,1,0,0);
 
@@ -57,7 +58,6 @@ void K2Tree::insert(int x, int y)
     {
         varmys = 0;
 
-
         if (this->n <= x && this->n <= y)
         {
             aa = start_level + offset * 4 + 1;
@@ -90,12 +90,24 @@ void K2Tree::insert(int x, int y)
     }
 }
 
+bool K2Tree::child_i(int i,int& x)
+{
+    if(tree[x])
+    {
+        x = rank(0,x)*k*k + i;
+        if(x >= tree.size())
+            x = x - tree.size();
+        return 1;
+    }
+    return 0;
+}
+
 int K2Tree::rank(int p, int i)
 {
     int count = 0;
     for (int j = 0; j <= i; j++)
     {
-        if (p == this->tree[j]) count++;
+        if (this->tree[j]) count++;
     }
     return count;
 }
@@ -166,17 +178,18 @@ void K2Tree::print_data()
         if (i % 4 == 0) std::cout << ' ';
         std::cout << this->tree[i];
     }
-
-    std::cout << "\nLeaves: ";
+    std::cout<<'\n';
+    std::cout << "Leaves: ";
     for (int i = 0; i < this->leaves.size(); i++)
     {
         if (i % 4 == 0) std::cout << ' ';
         std::cout << this->leaves[i];
     }
-
-    std::cout << "\nLabels: ";
+    std::cout<<'\n';
+    std::cout << "Labels: ";
     for (int i = 0; i < this->labels.size(); i++)
     {
         std::cout << this->labels[i];
     }
+    std::cout<<'\n';
 }

@@ -2,20 +2,23 @@
 #include <vector>
 
 #include "K2Tree.h"
+#include "K2Tree.cpp"
+
+using namespace std;
 
 int main()
 {
-    std::vector<std::vector<int>> matrix(8);
+    std::vector<std::vector<int>> matrix(16);
 
-    matrix[0] =   {0,0,0,0,0,0,0,0};
-    matrix[1] =   {0,0,0,0,0,0,0,0};
-    matrix[2] =   {0,0,1,0,0,2,3,0};
-    matrix[3] =   {0,0,0,4,5,0,0,0};
-    matrix[4] =   {0,0,0,6,7,0,0,0};
-    matrix[5] =   {0,0,8,0,0,0,0,0};
-    matrix[6] =   {0,0,0,0,0,0,0,0};
-    matrix[7] =   {0,0,0,0,0,0,0,0};
-/*
+    // matrix[0] =   {0,0,0,0,0,0,0,0};
+    // matrix[1] =   {0,0,0,0,0,0,0,0};
+    // matrix[2] =   {0,0,1,0,0,2,3,0};
+    // matrix[3] =   {0,0,0,4,5,0,0,0};
+    // matrix[4] =   {0,0,0,6,7,0,0,0};
+    // matrix[5] =   {0,0,8,0,0,0,0,0};
+    // matrix[6] =   {0,0,0,0,0,0,0,0};
+    // matrix[7] =   {0,0,0,0,0,0,0,0};
+
     matrix[0] =   {0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     matrix[1] =   {0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0};
     matrix[2] =   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -32,16 +35,25 @@ int main()
     matrix[13] =  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     matrix[14] =  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     matrix[15] =  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-*/
 /*
     for (auto &a : matrix)
     {
         a = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     }
 */
-    K2Tree smo(matrix);
+    K2Tree smo(matrix, 2);
 
     smo.print_data();
+    int i,x;
+    i=1,x=2;
+    if(smo.child_i(i,x))
+        cout<<x<<" "<<smo.tree[x]<<'\n';
+    i = 3;
+    if(smo.child_i(i,x))
+        cout<<x<<" "<<smo.tree[x]<<'\n';
+    i = 0;
+    if(smo.child_i(i,x))
+        cout<<x<<" "<<smo.tree[x]<<'\n';
 
     return 0;
 }
