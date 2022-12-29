@@ -2,7 +2,6 @@
 #include <vector>
 
 #include "K2Tree.h"
-#include "K2Tree.cpp"
 
 using namespace std;
 
