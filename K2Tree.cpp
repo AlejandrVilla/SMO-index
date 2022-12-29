@@ -8,18 +8,16 @@ K2Tree::K2Tree(std::vector<std::vector<int>> matrix)
     this->n = matrix.size();
     std::vector<std::vector<int>> T(std::ceil(std::log2(n)) + 1);
     this->build(matrix,T,n,1,0,0);
-    std::cout << "AYUDA\n";
 
     for (int i = 1; i < std::ceil(std::log2(n)); i++)
     {
-        this->nodes.insert(this->nodes.end(), T[i].begin(), T[i].end());
+        this->tree.insert(this->tree.end(), T[i].begin(), T[i].end());
     }
     this->leaves = T[std::ceil(std::log2(n))];
 }   
 
 int K2Tree::build(std::vector<std::vector<int>> a, std::vector<std::vector<int>> & T , int m, int l, int p, int q)
 {
-    std::cout << m << '\n';
     std::vector<int> C;
     for (int i = 0; i < 2; i++)
     {
@@ -27,7 +25,12 @@ int K2Tree::build(std::vector<std::vector<int>> a, std::vector<std::vector<int>>
         {
             if (l == std::ceil(std::log2(n)) || m == 1)
             {
-                C.push_back(a[p + i][q + j]);
+                if (a[p + i][q + j] != 0) 
+                {
+                    C.push_back(1);
+                    this->labels.push_back(a[p + i][q + j]);
+                }
+                else C.push_back(0);
             }
             else
             {
@@ -73,13 +76,13 @@ void K2Tree::insert(int x, int y)
         }
         for (int i = start_level; i <=  aa; i++)
         {
-            offset += nodes[i] - '0';
+            offset += tree[i] - '0';
         }
         
         // Counting all ones in a level
         for (int i = start_level; i < end_level; i++)
         {
-            varmys += nodes[i] - '0';
+            varmys += tree[i] - '0';
         }
         start_level = end_level;
         end_level = end_level + 4 * varmys;
@@ -92,7 +95,7 @@ int K2Tree::rank(int p, int i)
     int count = 0;
     for (int j = 0; j <= i; j++)
     {
-        if (p == this->nodes[j]) count++;
+        if (p == this->tree[j]) count++;
     }
     return count;
 }
@@ -100,9 +103,9 @@ int K2Tree::rank(int p, int i)
 int K2Tree::select(int p, int i)
 {
     int count = 0;
-    for (int j = 0; j <= this->nodes.size(); j++)
+    for (int j = 0; j <= this->tree.size(); j++)
     {
-        if (this->nodes[j] == p) count++;
+        if (this->tree[j] == p) count++;
         if (count == i) return j;
     }
     return -1;
@@ -111,16 +114,16 @@ int K2Tree::select(int p, int i)
 
 void K2Tree::direct(int n, int p, int q, int x)
 {
-    if (x >= this->nodes.size())
+    if (x >= this->tree.size())
     {
-        if (this->leaves[x - this->nodes.size()] == 1)
+        if (this->leaves[x - this->tree.size()] == 1)
         {
             std::cout << q << ' ';
         }
     }
     else
     {
-        if (x == -1 || this->nodes[x] == 1)
+        if (x == -1 || this->tree[x] == 1)
         {
             int y = rank(1,x) * 4 + 2 * std::floor(p / (n / 2));
             for (int i = 0; i <= 1; i++)
@@ -134,16 +137,16 @@ void K2Tree::direct(int n, int p, int q, int x)
 
 void K2Tree::reverse(int n, int q, int p, int x)
 {
-    if (x >= this->nodes.size())
+    if (x >= this->tree.size())
     {
-        if (this->leaves[x - this->nodes.size()] == 1)
+        if (this->leaves[x - this->tree.size()] == 1)
         {
             std::cout << p << ' ';
         }
     }
     else
     {
-        if (x == -1 || this->nodes[x] == 1)
+        if (x == -1 || this->tree[x] == 1)
         {
             int y = rank(1,x) * 4 + std::floor(q / (n / 2));
             for (int i = 0; i <= 1; i++)
@@ -157,17 +160,23 @@ void K2Tree::reverse(int n, int q, int p, int x)
 
 void K2Tree::print_data()
 {
-    std::cout << "T: ";
-    for (int i = 0; i < this->nodes.size(); i++)
+    std::cout << "Tree: ";
+    for (int i = 0; i < this->tree.size(); i++)
     {
         if (i % 4 == 0) std::cout << ' ';
-        std::cout << this->nodes[i];
+        std::cout << this->tree[i];
     }
 
-    std::cout << "\nL: ";
+    std::cout << "\nLeaves: ";
     for (int i = 0; i < this->leaves.size(); i++)
     {
         if (i % 4 == 0) std::cout << ' ';
         std::cout << this->leaves[i];
+    }
+
+    std::cout << "\nLabels: ";
+    for (int i = 0; i < this->labels.size(); i++)
+    {
+        std::cout << this->labels[i];
     }
 }

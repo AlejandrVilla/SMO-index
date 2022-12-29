@@ -7,8 +7,9 @@
 class K2Tree
 {
 private:
-    std::vector<int> nodes;
+    std::vector<int> tree;
     std::vector<int> leaves;
+    std::vector<int> labels;
     int n;
 public:
     K2Tree(std::vector<std::vector<int>> matrix);
